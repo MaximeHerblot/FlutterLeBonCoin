@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_le_bon_coin/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+
+
+void main() async{
+  await WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // PermissionHandler().init();
   runApp(const MyApp());
 }
 

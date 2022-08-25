@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "848914813672",
+    "project_id": "ipssi-flutter-le-bon-coin",
+    "storage_bucket": "ipssi-flutter-le-bon-coin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848914813672:android:3be237dc6e1454a286af5d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_le_bon_coin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848914813672-390g16a8i7rgl61ea20ia326825luqd7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaIGgCPFWb9xJ1F3ioqjHruX-YDVumlaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848914813672-390g16a8i7rgl61ea20ia326825luqd7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "848914813672-b8vjl5kuho4hgmlgbr97dhb476l7kjvv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterLeBonCoin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

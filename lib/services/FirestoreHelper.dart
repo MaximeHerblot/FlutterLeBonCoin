@@ -1,10 +1,15 @@
 
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_le_bon_coin/controller/EditAnnonce.dart';
+import 'package:flutter_le_bon_coin/model/Annonces.dart';
 import 'package:flutter_le_bon_coin/model/Utilisateur.dart';
+import 'package:flutter_le_bon_coin/services/constants.dart';
 
 class FirestoreHelper{
    final auth = FirebaseAuth.instance;
@@ -12,6 +17,7 @@ class FirestoreHelper{
    final fireUsers = FirebaseFirestore.instance.collection("USERS");
    final fireMessage = FirebaseFirestore.instance.collection("MESSAGES");
    final fireConversation = FirebaseFirestore.instance.collection("CONVERSATIONS");
+   final fireAds = FirebaseFirestore.instance.collection("ADS");
 
 
 
@@ -143,5 +149,43 @@ class FirestoreHelper{
       return null;
    }
 
+    saveAd(String userId, String title, String description) async {
+      final ads = <String, dynamic>{
+         "USER" : MyAccount.id,
+         "TITLE" : title,
+         "DESCRIPTION" : description,
+         "AVAILABLE" : true,
+      };
+      return await fireAds.add(ads);
+
+   }
+
+   Stream<QuerySnapshot<Map<String, dynamic>>> getAvailableAds() {
+      return fireAds.where("AVAILABLE", isEqualTo: true).snapshots();
+  }
+   Stream<QuerySnapshot<Map<String, dynamic>>> getMyAds() {
+      return fireAds.where("USER", isEqualTo: MyAccount.id).snapshots();
+   }
+
+   getInfoAnnonce(String annonceId) {
+      return fireAds.doc(annonceId).snapshots();
+
+
+   }
+   
+   updateAnnonce(Annonces annonce) async {
+      print(annonce.id);
+      final annonceRef = fireAds.doc(annonce.id);
+      final updates = <String, dynamic>{
+         "AVAILABLE": annonce.available,
+         "DESCRIPTION": annonce.description,
+         "TITLE": annonce.titre,
+      };
+
+      annonceRef.update(updates).then(
+              (value) => print("DocumentSnapshot successfully updated!"),
+          onError: (e) => print("Error updating document $e"));
+
+   }
 
 }

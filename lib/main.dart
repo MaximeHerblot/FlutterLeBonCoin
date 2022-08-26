@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_le_bon_coin/controller/CreationAnnonce.dart';
 import 'package:flutter_le_bon_coin/controller/Dashboard.dart';
+import 'package:flutter_le_bon_coin/controller/Inscription.dart';
 import 'package:flutter_le_bon_coin/firebase_options.dart';
 import 'package:flutter_le_bon_coin/services/FirestoreHelper.dart';
 import 'package:flutter_le_bon_coin/services/Permission.dart';
@@ -155,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
               MyAccount = value;
               Navigator.push(context, MaterialPageRoute(
                   builder: (context){
-                    return Dashboard();
+                    return Dashboard(index: 0,);
 
                   }
               ));
@@ -173,7 +174,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         TextButton(
             onPressed: (){
-              // Fonction navigation inscription ici
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context){
+                    return Inscription();
+                  }
+              ));
+
             },
             child: const Text("Sign up")
         ),

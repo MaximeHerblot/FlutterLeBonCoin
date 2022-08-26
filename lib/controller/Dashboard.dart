@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_le_bon_coin/controller/CreationAnnonce.dart';
 import 'package:flutter_le_bon_coin/controller/MesAnnonces.dart';
+import 'package:flutter_le_bon_coin/model/Annonces.dart';
+import 'package:flutter_le_bon_coin/services/FirestoreHelper.dart';
 
 class Dashboard extends StatefulWidget{
+  int index;
+  Dashboard({required this.index});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -12,11 +18,25 @@ class Dashboard extends StatefulWidget{
 
 
 class DashboardState extends State<Dashboard>{
-  int index=0;
-  PageController pageIndex = PageController(initialPage: 0);
+  int index = 0;
+  late PageController pageIndex;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState((){
+      index = widget.index;
+      pageIndex = PageController(initialPage: widget.index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+
+
     return Scaffold(
       drawer: Container(
 
@@ -60,9 +80,60 @@ class DashboardState extends State<Dashboard>{
   }
 
   Widget
-  listingAnnonces(){
+  listingAnnonces() {
     //Récupération des annonces
-    return const Text("Annonces");
+
+    var listAds = FirestoreHelper().getAvailableAds();
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirestoreHelper().getAvailableAds(),
+        builder: (context,snapshot){
+          if(!snapshot.hasData){
+            //La base de donnée n'a aucun snapshot
+            return const Center(
+              //Widget en forme de cercle qui tourne sur lui meme en permance
+                child: CircularProgressIndicator()
+            );
+
+
+          }
+          else
+          {
+            //La base de donnée a un ou plusieurs snapshots
+            List documents = snapshot.data!.docs;
+            return ListView.builder(
+                itemCount: documents.length,
+                itemBuilder: (context,index){
+                  Annonces annonce = Annonces(documents[index]);
+                    return Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+
+                      child:  ListTile(
+                        title: Text(annonce.titre),
+                        subtitle: Text(annonce.description),
+                        onTap: (){
+
+                        },
+
+
+                      ),
+
+                      );
+
+                }
+            );
+
+
+          }
+        }
+    );
+
+    print(listAds);
+    if (listAds == null) {
+      return const Text("Il n'y a aucun annonces de disponible actuellement");
+    } else {
+      return const Text("Listes des annonces");
+    }
   }
 
   Widget bodyPage(){
